@@ -42,7 +42,7 @@ const Contact: React.FC = () => {
 
   const openWhatsApp = () => {
   const message = encodeURIComponent("Hi! I'm interested in your services. Can we discuss?");
-  window.open(`https://wa.me/+918072762077?text=${message}`, '_blank');
+  window.open(`https://wa.me/+919342916754?text=${message}`, '_blank');
 };
 
 
@@ -69,7 +69,7 @@ const Contact: React.FC = () => {
                 <div>
                   <p className="text-lg font-semibold text-gray-900">Email</p>
                   <a href="mailto:info@technewsoftwares.com" className="text-blue-600 hover:text-blue-700 transition-colors duration-200">
-                     info@technew16754@gmail.com
+                     technew16754@gmail.com
                   </a>
                 </div>
               </div>
@@ -92,7 +92,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-lg font-semibold text-gray-900">Address</p>
-                  <p className="text-gray-600">Hosur to Krishnagiri Highways, Nallaganakothapalli, Near Koneripalli (PO), Hosur, Krishnagiri District, Tamil Nadu - 635 117</p>
+                  <p className="text-gray-600">4/133  Ullatti, Krishagiri, Tamilnadu.</p>
                 </div>
               </div>
             </div>
@@ -109,7 +109,7 @@ const Contact: React.FC = () => {
             {/* Google Map */}
             <div className="mt-8 h-64 rounded-2xl overflow-hidden shadow-lg">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3892.585173012007!2d77.96793629999999!3d12.6751819!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3badd7a94afdd3ed%3A0x74a9b77636cc1ab6!2sPMC%20TECH!5e0!3m2!1sen!2sin!4v1758565103939!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1947.4021115112657!2d77.97421128854486!3d12.529125046936775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bac2b2a40f70027%3A0x19320406f396bf47!2sUllatti%2C%20Tamil%20Nadu%20635113!5e0!3m2!1sen!2sin!4v1758699566418!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
