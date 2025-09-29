@@ -140,7 +140,8 @@ const Services: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
-  if (pendingService === null) return;
+  if (pendingService === null) return; // safety
+
   setIsSubmitting(true);
 
   try {
@@ -154,19 +155,23 @@ const Services: React.FC = () => {
       }),
     });
 
-    if (!res.ok) throw new Error("Failed to send");
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || "Failed to send details");
+    }
 
-    alert("Details submitted successfully!");
-    setShowForm(false);
-    setFormData({ name: "", email: "" });
-    openModal(pendingService); // finally open modal
-  } catch (err) {
-    alert("Error sending details. Please try again.");
+    // ✅ After successful submission:
+    setShowForm(false); // close form modal
+    openModal(pendingService); // open service details modal
+    setFormData({ name: "", email: "" }); // reset form
+  } catch (err: any) {
+    alert("Error sending details: " + err.message);
     console.error(err);
   } finally {
     setIsSubmitting(false);
   }
 };
+
 
   return (
     <div className="py-20 bg-gray-50">
