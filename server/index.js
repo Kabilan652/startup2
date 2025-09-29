@@ -32,6 +32,10 @@ const transporter = nodemailer.createTransport({
 });
 
 // Newsletter subscription
+app.get("/", (req, res) => {
+  res.send("🚀 Backend is running successfully!");
+});
+
 app.post("/api/newsletter", async (req, res) => {
   const { email } = req.body;
   try {
