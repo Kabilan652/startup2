@@ -192,7 +192,7 @@ const Services: React.FC = () => {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          message: `Interested in service: ${services[pendingService!].title}`,
+          message: serviceTitle: services[pendingService!].title,
         }),
       });
       if (!res.ok) throw new Error("Failed to send");
