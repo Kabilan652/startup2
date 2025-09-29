@@ -1,35 +1,34 @@
-
-
 require("dotenv").config();
-
 const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 
 const app = express();
 
-// Enable CORS for your frontend
+// CORS for local + deployed frontend
 app.use(cors({
-  origin: 'http://localhost:5173',  // replace with your frontend URL in production
-  methods: ['GET', 'POST', 'OPTIONS'],
+  origin: [
+    'http://localhost:5173',
+    'https://tech-new-software-f6xb.onrender.com'
+  ],
+  methods: ['GET','POST','OPTIONS'],
   allowedHeaders: ['Content-Type'],
 }));
 
 app.use(express.json());
 
-// Handle newsletter subscription
+// Global transporter (reused)
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASS,
+  },
+});
+
+// Newsletter
 app.post('/api/newsletter', async (req, res) => {
   const { email } = req.body;
-
-  // Nodemailer transporter
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.GMAIL_USER, // ✅ use env vars
-      pass: process.env.GMAIL_PASS, // ✅ use env vars
-    },
-  });
-
   try {
     await transporter.sendMail({
       from: process.env.GMAIL_USER,
@@ -37,7 +36,6 @@ app.post('/api/newsletter', async (req, res) => {
       subject: 'New Newsletter Subscription',
       text: `New subscriber: ${email}`,
     });
-
     res.json({ message: 'Notification sent!' });
   } catch (err) {
     console.error("❌ Newsletter email failed:", err);
@@ -45,20 +43,12 @@ app.post('/api/newsletter', async (req, res) => {
   }
 });
 
-// Handle contact form messages
+// Contact form
 app.post("/send", async (req, res) => {
   const { name, email, message } = req.body;
   console.log("Incoming form data:", req.body);
 
   try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.GMAIL_USER, // ✅ env var
-        pass: process.env.GMAIL_PASS, // ✅ env var
-      },
-    });
-
     await transporter.sendMail({
       from: process.env.GMAIL_USER,
       replyTo: email,
@@ -71,7 +61,6 @@ app.post("/send", async (req, res) => {
         <p><strong>Message:</strong><br/> ${message}</p>
       `,
     });
-
     res.status(200).send("Message sent successfully");
   } catch (error) {
     console.error("❌ Email sending failed:", error);
@@ -79,13 +68,6 @@ app.post("/send", async (req, res) => {
   }
 });
 
-app.use(cors({
-  origin: [
-    'http://localhost:5173', // local dev
-    'https://tech-new-software-f6xb.onrender.com' // deployed frontend
-  ],
-  methods: ['GET','POST','OPTIONS'],
-  allowedHeaders: ['Content-Type'],
-}));
-
-
+// Listen
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
