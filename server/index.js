@@ -86,7 +86,7 @@ app.post("/api/service-request", async (req, res) => {
     // Confirmation to user
     await sgMail.send({
       to: email,
-      from: { email: "technew16754@gmail.com", name: "TechNew Team" },
+      from: { email: "kabilandina11@gmail.com", name: "TechNew Team" },
       subject: "We Received Your Service Request ",
       html: `
         <h3>Hello ${name},</h3>
