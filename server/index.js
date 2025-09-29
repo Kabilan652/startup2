@@ -8,7 +8,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // CORS
 app.use(cors({
-  origin: ["http://localhost:5173", "https://startup2-3pi6.onrender.com"],
+  origin: ["http://localhost:5173", "https://tech-new-softwares.onrender.com"],
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
 }));
