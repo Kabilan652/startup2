@@ -143,7 +143,7 @@ const Services: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("https://startup-server-dzgw.onrender.com", {
+      const res = await fetch("https://startup2-server.onrender.com", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
