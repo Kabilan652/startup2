@@ -25,7 +25,7 @@ app.post("/api/newsletter", async (req, res) => {
 
   try {
     await sgMail.send({
-      to: "technew16754@gmail.com",
+      to: "kabilandivan12@gmail.com",
       from: { email: "kabilandina11@gmail.com", name: "TechNew Website" }, // verified domain
       subject: "New Newsletter Subscription",
       text: `New subscriber: ${email}`,
@@ -45,7 +45,7 @@ app.post("/send", async (req, res) => {
 
   try {
     await sgMail.send({
-      to: "kabilandivan12@gmail.com",
+      to: "technew16754@gmail.com",
       from: { email: "kabilandina11@gmail.com", name: "TechNew Website" }, // verified domain
       replyTo: email,
       subject: `New Contact Form Message from ${name}`,
