@@ -37,7 +37,7 @@ app.post("/api/newsletter", async (req, res) => {
 
   try {
     await sgMail.send({
-      to: "kabilandivan12@gmail.com",
+      to: "technew16754@gmail.com",
       from: "kabilandina11@gmail.com", // must be verified in SendGrid
       subject: "New Newsletter Subscription",
       text: `New subscriber: ${email}`,
@@ -61,7 +61,7 @@ app.post("/send", async (req, res) => {
 
   try {
     await sgMail.send({
-      to: "kabilandivan12@gmail.com",
+      to: "technew16754@gmail.com",
       from: "kabilandina11@gmail.com", // must be verified in SendGrid
       replyTo: email,
       subject: `New Contact Form Message from ${name}`,
