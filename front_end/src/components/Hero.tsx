@@ -10,7 +10,7 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({ subscriberCount }) => {
   const [displayedText, setDisplayedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-  const fullText = "We Don’t Follow Trends — We Create Them.";
+  const fullText = "Your Success, Our Commitment";
 
   useEffect(() => {
     if (currentIndex < fullText.length) {
