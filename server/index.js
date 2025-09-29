@@ -4,30 +4,21 @@ const cors = require("cors");
 const sgMail = require("@sendgrid/mail");
 
 const app = express();
-
-// Set SendGrid API key
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-// CORS for local + deployed frontend
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://startup2-3pi6.onrender.com",
-    ],
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type"],
-  })
-);
+// CORS
+app.use(cors({
+  origin: ["http://localhost:5173", "https://startup2-3pi6.onrender.com"],
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
+}));
 
 app.use(express.json());
 
-// Health check / root
-app.get("/", (req, res) => {
-  res.send("🚀 Backend is running successfully!");
-});
+// Health check
+app.get("/", (req, res) => res.send("🚀 Backend is running successfully!"));
 
-// Newsletter subscription
+// ===== Newsletter =====
 app.post("/api/newsletter", async (req, res) => {
   const { email } = req.body;
   if (!email) return res.status(400).json({ error: "Email is required" });
@@ -35,9 +26,10 @@ app.post("/api/newsletter", async (req, res) => {
   try {
     await sgMail.send({
       to: "technew16754@gmail.com",
-      from: "kabilandina11@gmail.com",
+      from: { email: "kabilandina11@gmail.com", name: "TechNew Website" }, // verified domain
       subject: "New Newsletter Subscription",
       text: `New subscriber: ${email}`,
+      replyTo: email,
     });
     res.json({ message: "Notification sent!" });
   } catch (err) {
@@ -46,16 +38,15 @@ app.post("/api/newsletter", async (req, res) => {
   }
 });
 
-// Contact form submission
+// ===== Contact Form =====
 app.post("/send", async (req, res) => {
   const { name, email, message } = req.body;
   if (!name || !email || !message) return res.status(400).json({ error: "All fields are required" });
 
   try {
-    // send to company
     await sgMail.send({
       to: "technew16754@gmail.com",
-      from: "kabilandina11@gmail.com",
+      from: { email: "kabilandina11@gmail.com", name: "TechNew Website" }, // verified domain
       replyTo: email,
       subject: `New Contact Form Message from ${name}`,
       html: `
@@ -65,7 +56,6 @@ app.post("/send", async (req, res) => {
         <p><strong>Message:</strong><br/> ${message}</p>
       `,
     });
-
     res.status(200).json({ message: "Message sent successfully" });
   } catch (err) {
     console.error("❌ Contact email failed:", err);
@@ -73,19 +63,16 @@ app.post("/send", async (req, res) => {
   }
 });
 
-// === New route for service requests from Services.jsx ===
+// ===== Service Request Form =====
 app.post("/api/service-request", async (req, res) => {
   const { name, email, serviceTitle } = req.body;
-
-  if (!name || !email || !serviceTitle) {
-    return res.status(400).json({ error: "Name, email, and serviceTitle are required" });
-  }
+  if (!name || !email || !serviceTitle) return res.status(400).json({ error: "Name, email, and serviceTitle are required" });
 
   try {
-    // Send email to owner
+    // Owner notification
     await sgMail.send({
       to: "technew16754@gmail.com",
-      from: "kabilandina11@gmail.com",
+      from: { email: "kabilandina11@gmail.com", name: "TechNew Website" }, // verified domain
       replyTo: email,
       subject: `New Service Request from ${name}`,
       html: `
@@ -96,11 +83,11 @@ app.post("/api/service-request", async (req, res) => {
       `,
     });
 
-    // Optional: send confirmation to user
+    // Confirmation to user
     await sgMail.send({
       to: email,
-      from: "kabilandina11@gmail.com",
-      subject: "We Received Your Service Request ✅",
+      from: { email: "kabilandina11@gmail.com", name: "TechNew Team" },
+      subject: "We Received Your Service Request ",
       html: `
         <h3>Hello ${name},</h3>
         <p>Thank you for your interest in our service: <strong>${serviceTitle}</strong>.</p>
