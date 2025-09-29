@@ -1,56 +1,58 @@
 require("dotenv").config();
-const express = require('express');
-const cors = require('cors');
-const nodemailer = require('nodemailer');
+const express = require("express");
+const cors = require("cors");
+const nodemailer = require("nodemailer");
 
 const app = express();
 
 // CORS for local + deployed frontend
-app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'https://tech-new-software-f6xb.onrender.com'
-  ],
-  methods: ['GET','POST','OPTIONS'],
-  allowedHeaders: ['Content-Type'],
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://tech-new-software-f6xb.onrender.com",
+    ],
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 
 app.use(express.json());
 
-// Global transporter (reused)
+// Nodemailer transporter using SendGrid
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  service: "SendGrid",
   auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS,
+    user: "apikey", // literal string
+    pass: process.env.SENDGRID_API_KEY, // add in Render Environment Variables
   },
 });
 
-// Newsletter
-app.post('/api/newsletter', async (req, res) => {
+// Newsletter subscription
+app.post("/api/newsletter", async (req, res) => {
   const { email } = req.body;
   try {
     await transporter.sendMail({
-      from: process.env.GMAIL_USER,
-      to: 'technew16754@gmail.com',
-      subject: 'New Newsletter Subscription',
+      from: "no-reply@yourdomain.com", // sender
+      to: "technew16754@gmail.com", // where you receive emails
+      subject: "New Newsletter Subscription",
       text: `New subscriber: ${email}`,
     });
-    res.json({ message: 'Notification sent!' });
+    res.json({ message: "Notification sent!" });
   } catch (err) {
     console.error("❌ Newsletter email failed:", err);
-    res.status(500).json({ error: 'Failed to send email' });
+    res.status(500).json({ error: "Failed to send email" });
   }
 });
 
-// Contact form
+// Contact form submission
 app.post("/send", async (req, res) => {
   const { name, email, message } = req.body;
   console.log("Incoming form data:", req.body);
 
   try {
     await transporter.sendMail({
-      from: process.env.GMAIL_USER,
+      from: "no-reply@yourdomain.com",
       replyTo: email,
       to: "technew16754@gmail.com",
       subject: `New Contact Form Message from ${name}`,
