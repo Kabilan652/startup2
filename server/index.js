@@ -85,16 +85,19 @@ app.post("/api/service-request", async (req, res) => {
 
     // Confirmation to user
     await sgMail.send({
-      to: email,
-      from: { email: "kabilandina11@gmail.com", name: "TechNew Team" },
-      subject: "We Received Your Service Request ",
-      html: `
-        <h3>Hello ${name},</h3>
-        <p>Thank you for your interest in our service: <strong>${serviceTitle}</strong>.</p>
-        <p>Our team will contact you shortly.</p>
-        <p>— TechNew Team</p>
-      `,
-    });
+  to: email,
+  from: { email: "kabilandina11@gmail.com", name: "TechNew Team" },
+  subject: "We Received Your Service Request",
+  html: `
+    <h3>Hello ${name},</h3>
+    <p>Thank you for your interest in our service: <strong>${serviceTitle}</strong>.</p>
+    <p>At <strong>TechNew Software</strong>, we specialize in delivering cutting-edge technology solutions including software development, AI & data analytics, cloud infrastructure, and IT consulting. Our goal is to help businesses thrive in the digital age with innovative, scalable, and secure solutions.</p>
+    <p>Our team will review your request and contact you shortly to discuss your requirements in detail.</p>
+    <p>We look forward to partnering with you on your digital journey!</p>
+    <p>— <strong>TechNew Team</strong></p>
+  `,
+});
+
 
     res.status(200).json({ message: "Service request sent successfully" });
   } catch (err) {
