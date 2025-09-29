@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Code, Brain, Cloud, Users, X } from 'lucide-react';
+import { Code, Brain, Cloud, Users, X, Share2 } from 'lucide-react';
 
 const Services: React.FC = () => {
   const [selectedService, setSelectedService] = useState<number | null>(null);
@@ -119,59 +119,94 @@ const Services: React.FC = () => {
         timeline: '2-12 weeks for initial assessment',
       },
     },
+    {
+      icon: Share2,
+      title: 'Social Media Services',
+      description: 'Grow your brand and engagement on social media platforms',
+      color: 'from-pink-500 to-pink-600',
+      details: {
+        overview:
+          'We help businesses establish a strong social media presence, create engaging content, and run marketing campaigns to grow followers, engagement, and reach.',
+        features: [
+          'Account Setup & Branding – Profiles, bios, and visuals (logo, cover, etc.)',
+          'Content Creation – Posts, reels, captions, hashtags, and ideas',
+          'Marketing & Growth – Strategy for increasing followers, engagement, and reach',
+          'Social Media Management – Scheduling, posting, and analytics tracking',
+          'Ad Campaigns – Running paid ads on Facebook, Instagram, LinkedIn, etc.',
+        ],
+        technologies: [
+          'Facebook Business Suite',
+          'Instagram Insights',
+          'LinkedIn Campaign Manager',
+          'Canva / Adobe Creative Suite',
+          'Hootsuite / Buffer',
+          'Google Analytics',
+        ],
+        timeline: '1-3 months depending on platform and campaign complexity',
+      },
+    },
+    {
+      icon: Users,
+      title: 'Business Support & Growth',
+      description: 'Empowering your company to grow and operate efficiently',
+      color: 'from-yellow-500 to-yellow-600',
+      details: {
+        overview:
+          'We provide comprehensive support to help businesses scale, improve operations, and maximize growth opportunities. Our team guides you through strategy, operations, and customer success.',
+        features: [
+          'Business Strategy & Planning – Roadmaps, KPIs, and goals',
+          'Operational Support – Process optimization, workflow management',
+          'Financial & Resource Planning – Budgeting, forecasting, cost optimization',
+          'Team & HR Support – Recruitment, training, and performance tracking',
+          'Customer Success – Support systems, feedback management, retention strategies',
+        ],
+        technologies: [
+          'Trello / Asana',
+          'Slack / Microsoft Teams',
+          'QuickBooks / Xero',
+          'Google Workspace',
+          'CRM Tools (HubSpot, Salesforce)',
+          'Analytics Tools',
+        ],
+        timeline: 'Ongoing support with monthly or quarterly assessments',
+      },
+    },
   ];
 
-  const openModal = (index: number) => {
-    setSelectedService(index);
-  };
-
-  const closeModal = () => {
-    setSelectedService(null);
-  };
-
+  const openModal = (index: number) => setSelectedService(index);
+  const closeModal = () => setSelectedService(null);
   const handleLearnMore = (index: number) => {
-    setPendingService(index); // store which service is pending
-    setShowForm(true); // open popup form
+    setPendingService(index);
+    setShowForm(true);
   };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (pendingService === null) return; // safety
+    e.preventDefault();
+    setIsSubmitting(true);
 
-  setIsSubmitting(true);
-
-  try {
-    const res = await fetch("https://startup2-server.onrender.com/api/service-request", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: formData.name,
-        email: formData.email,
-        serviceTitle: services[pendingService].title,
-      }),
-    });
-
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.message || "Failed to send details");
+    try {
+      const res = await fetch("http://localhost:5000/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: `Interested in service: ${services[pendingService!].title}`,
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to send");
+      alert("Details submitted successfully!");
+      setShowForm(false);
+      setFormData({ name: "", email: "" });
+      if (pendingService !== null) openModal(pendingService);
+    } catch (err) {
+      alert("Error sending details. Please try again.");
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
     }
-
-    // ✅ After successful submission:
-    setShowForm(false); // close form modal
-    openModal(pendingService); // open service details modal
-    setFormData({ name: "", email: "" }); // reset form
-  } catch (err: any) {
-    alert("Error sending details: " + err.message);
-    console.error(err);
-  } finally {
-    setIsSubmitting(false);
-  }
-};
-
+  };
 
   return (
     <div className="py-20 bg-gray-50">
@@ -187,10 +222,17 @@ const Services: React.FC = () => {
         {/* First 4 services */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.slice(0, 4).map((service, index) => (
+            <ServiceCard key={index} service={service} onClick={() => handleLearnMore(index)} />
+          ))}
+        </div>
+
+        {/* Last 2 services centered */}
+        <div className="mt-8 flex justify-center gap-8 flex-wrap">
+          {services.slice(4).map((service, index) => (
             <div
-              key={index}
-              onClick={() => handleLearnMore(index)}
-              className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transform hover:-translate-y-4 transition-all duration-300 cursor-pointer"
+              key={index + 4}
+              onClick={() => handleLearnMore(index + 4)}
+              className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transform hover:-translate-y-4 transition-all duration-300 cursor-pointer w-80"
             >
               <div
                 className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
@@ -200,9 +242,7 @@ const Services: React.FC = () => {
               <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">
                 {service.title}
               </h3>
-              <p className="text-gray-600 leading-relaxed">
-                {service.description}
-              </p>
+              <p className="text-gray-600 leading-relaxed">{service.description}</p>
               <div className="mt-4 text-blue-600 font-semibold group-hover:underline">
                 Learn More →
               </div>
@@ -210,16 +250,12 @@ const Services: React.FC = () => {
           ))}
         </div>
 
-        {/* Last service centered (if any extra later) */}
-
         {/* Popup Form */}
         {showForm && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-lg">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold text-gray-900">
-                  Enter Your Details
-                </h3>
+                <h3 className="text-2xl font-bold text-gray-900">Enter Your Details</h3>
                 <button
                   onClick={() => setShowForm(false)}
                   className="p-2 hover:bg-gray-100 rounded-full"
@@ -275,9 +311,7 @@ const Services: React.FC = () => {
                         return <ServiceIcon className="w-6 h-6 text-white" />;
                       })()}
                     </div>
-                    <h3 className="text-3xl font-bold text-gray-900">
-                      {services[selectedService].title}
-                    </h3>
+                    <h3 className="text-3xl font-bold text-gray-900">{services[selectedService].title}</h3>
                   </div>
                   <button
                     onClick={closeModal}
@@ -289,58 +323,40 @@ const Services: React.FC = () => {
 
                 <div className="space-y-8">
                   <div>
-                    <h4 className="text-xl font-semibold text-gray-900 mb-3">
-                      Overview
-                    </h4>
-                    <p className="text-gray-600 leading-relaxed">
-                      {services[selectedService].details.overview}
-                    </p>
+                    <h4 className="text-xl font-semibold text-gray-900 mb-3">Overview</h4>
+                    <p className="text-gray-600 leading-relaxed">{services[selectedService].details.overview}</p>
                   </div>
 
                   <div>
-                    <h4 className="text-xl font-semibold text-gray-900 mb-3">
-                      Key Features
-                    </h4>
+                    <h4 className="text-xl font-semibold text-gray-900 mb-3">Key Features</h4>
                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                      {services[selectedService].details.features.map(
-                        (feature, idx) => (
-                          <li key={idx} className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                            <span className="text-gray-600">{feature}</span>
-                          </li>
-                        )
-                      )}
+                      {services[selectedService].details.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                          <span className="text-gray-600">{feature}</span>
+                        </li>
+                      ))}
                     </ul>
                   </div>
 
                   <div>
-                    <h4 className="text-xl font-semibold text-gray-900 mb-3">
-                      Technologies
-                    </h4>
+                    <h4 className="text-xl font-semibold text-gray-900 mb-3">Technologies</h4>
                     <div className="flex flex-wrap gap-2">
-                      {services[selectedService].details.technologies.map(
-                        (tech, idx) => (
-                          <span
-                            key={idx}
-                            className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
-                          >
-                            {tech}
-                          </span>
-                        )
-                      )}
+                      {services[selectedService].details.technologies.map((tech, idx) => (
+                        <span
+                          key={idx}
+                          className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
+                        >
+                          {tech}
+                        </span>
+                      ))}
                     </div>
                   </div>
 
                   <div>
-                    <h4 className="text-xl font-semibold text-gray-900 mb-3">
-                      Timeline
-                    </h4>
-                    <p className="text-gray-600">
-                      {services[selectedService].details.timeline}
-                    </p>
+                    <h4 className="text-xl font-semibold text-gray-900 mb-3">Timeline</h4>
+                    <p className="text-gray-600">{services[selectedService].details.timeline}</p>
                   </div>
-
-                  
                 </div>
               </div>
             </div>
@@ -350,5 +366,23 @@ const Services: React.FC = () => {
     </div>
   );
 };
+
+const ServiceCard: React.FC<{ service: any; onClick: () => void }> = ({ service, onClick }) => (
+  <div
+    onClick={onClick}
+    className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transform hover:-translate-y-4 transition-all duration-300 cursor-pointer"
+  >
+    <div
+      className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
+    >
+      <service.icon className="w-8 h-8 text-white" />
+    </div>
+    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">
+      {service.title}
+    </h3>
+    <p className="text-gray-600 leading-relaxed">{service.description}</p>
+    <div className="mt-4 text-blue-600 font-semibold group-hover:underline">Learn More →</div>
+  </div>
+);
 
 export default Services;
