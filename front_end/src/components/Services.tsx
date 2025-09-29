@@ -186,7 +186,7 @@ const Services: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("https://startup2-3pi6.onrender.com/api/service-request", {
+      const res = await fetch("https://tech-new-softwares.onrender.com/api/service-request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
