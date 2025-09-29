@@ -45,7 +45,7 @@ app.post("/send", async (req, res) => {
 
   try {
     await sgMail.send({
-      to: "technew16754@gmail.com",
+      to: "kabilandivan12@gmail.com",
       from: { email: "kabilandina11@gmail.com", name: "TechNew Website" }, // verified domain
       replyTo: email,
       subject: `New Contact Form Message from ${name}`,
