@@ -1,9 +1,12 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const nodemailer = require("nodemailer");
+const sgMail = require("@sendgrid/mail");
 
 const app = express();
+
+// Set SendGrid API key
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // CORS for local + deployed frontend
 app.use(
@@ -19,49 +22,48 @@ app.use(
 
 app.use(express.json());
 
-// Nodemailer transporter using SendGrid
-const transporter = nodemailer.createTransport({
-  service: "SendGrid",
-  auth: {
-    user: "apikey", // literal string
-    pass: process.env.SENDGRID_API_KEY, // add in Render Environment Variables
-  },
-   tls: {
-    rejectUnauthorized: false, // ignore self-signed certs
-  }
-});
-
-// Newsletter subscription
+// Health check / root
 app.get("/", (req, res) => {
   res.send("🚀 Backend is running successfully!");
 });
 
+// Newsletter subscription
 app.post("/api/newsletter", async (req, res) => {
   const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
+
   try {
-    await transporter.sendMail({
-      from: "kabilandina11@gmail.com", // sender
-      to: "technew16754@gmail.com", // where you receive emails
+    await sgMail.send({
+      to: "technew16754@gmail.com",
+      from: "kabilandina11@gmail.com", // must be verified in SendGrid
       subject: "New Newsletter Subscription",
       text: `New subscriber: ${email}`,
     });
     res.json({ message: "Notification sent!" });
   } catch (err) {
-    console.error("❌ Newsletter email failed:", err.message);
-    res.status(500).json({ error: "Failed to send email : " + err.message });
+    console.error("❌ Newsletter email failed:", err);
+    res.status(500).json({ error: "Failed to send email", message: err.message });
   }
 });
 
 // Contact form submission
 app.post("/send", async (req, res) => {
   const { name, email, message } = req.body;
+
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
   console.log("Incoming form data:", req.body);
 
   try {
-    await transporter.sendMail({
-      from: "kabilandina11@gmail.com",
-      replyTo: email,
+    await sgMail.send({
       to: "technew16754@gmail.com",
+      from: "kabilandina11@gmail.com", // must be verified in SendGrid
+      replyTo: email,
       subject: `New Contact Form Message from ${name}`,
       html: `
         <h3>New Contact Form Message</h3>
@@ -70,13 +72,14 @@ app.post("/send", async (req, res) => {
         <p><strong>Message:</strong><br/> ${message}</p>
       `,
     });
-    res.status(200).send("Message sent successfully");
+
+    res.status(200).json({ message: "Message sent successfully" });
   } catch (err) {
-    console.error("❌ Email sending failed:",err.message);
-    res.status(500).json({ error: "Failed to send email: " + err.message });
+    console.error("❌ Contact email failed:", err);
+    res.status(500).json({ error: "Failed to send email", message: err.message });
   }
 });
 
-// Listen
+// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
