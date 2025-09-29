@@ -139,35 +139,34 @@ const Services: React.FC = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  e.preventDefault();
+  if (pendingService === null) return;
+  setIsSubmitting(true);
 
-    try {
-      const res = await fetch("https://startup2-server.onrender.com/api/service-request", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          message: `Interested in service: ${services[pendingService!].title}`,
-        }),
-      });
+  try {
+    const res = await fetch("https://startup2-server.onrender.com/api/service-request", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        serviceTitle: services[pendingService].title,
+      }),
+    });
 
-      if (!res.ok) throw new Error("Failed to send");
+    if (!res.ok) throw new Error("Failed to send");
 
-      alert("Details submitted successfully!");
-      setShowForm(false);
-      setFormData({ name: "", email: "" });
-      if (pendingService !== null) {
-        openModal(pendingService); // finally open modal
-      }
-    } catch (err) {
-      alert("Error sending details. Please try again.");
-      console.error(err);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    alert("Details submitted successfully!");
+    setShowForm(false);
+    setFormData({ name: "", email: "" });
+    openModal(pendingService); // finally open modal
+  } catch (err) {
+    alert("Error sending details. Please try again.");
+    console.error(err);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div className="py-20 bg-gray-50">
