@@ -82,5 +82,7 @@ app.post("/send", async (req, res) => {
 // Optional: handle OPTIONS preflight request
 app.options('/api/newsletter', cors());  
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.use(cors({
+  origin: 'https://tech-new-software-f6xb.onrender.com', // deployed frontend
+}));
+
