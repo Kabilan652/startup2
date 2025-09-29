@@ -1,4 +1,4 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 
 require("dotenv").config();
 
@@ -79,10 +79,13 @@ app.post("/send", async (req, res) => {
   }
 });
 
-// Optional: handle OPTIONS preflight request
-app.options('/api/newsletter', cors());  
-
 app.use(cors({
-  origin: 'https://tech-new-software-f6xb.onrender.com', // deployed frontend
+  origin: [
+    'http://localhost:5173', // local dev
+    'https://tech-new-software-f6xb.onrender.com' // deployed frontend
+  ],
+  methods: ['GET','POST','OPTIONS'],
+  allowedHeaders: ['Content-Type'],
 }));
+
 
