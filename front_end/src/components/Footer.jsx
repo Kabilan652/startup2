@@ -7,7 +7,7 @@ const Footer = () => {
   const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://startup-server-dzgw.onrender.com', {
+      const response = await fetch('https://startup2-server.onrender.com', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
