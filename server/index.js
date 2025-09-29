@@ -48,7 +48,7 @@ app.post("/api/newsletter", async (req, res) => {
     res.json({ message: "Notification sent!" });
   } catch (err) {
     console.error("❌ Newsletter email failed:", err.message);
-    res.status(500).json({ error: "Failed to send email : " ,err.message });
+    res.status(500).json({ error: "Failed to send email : " + err.message });
   }
 });
 
