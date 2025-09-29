@@ -21,7 +21,7 @@ const Contact: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("https://startup2-server.onrender.com", {
+      const res = await fetch("https://startup2-server.onrender.com/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
