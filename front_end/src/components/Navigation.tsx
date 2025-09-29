@@ -49,7 +49,7 @@ const Navigation = () => {
         {/* Logo */}
         <h1 className="text-xl font-bold">
           <img
-            src="/images/logo.jpg"
+            src="/images/logo.png"
             alt="Tech New Softwares Logo"
             className="h-16 w-auto inline-block"
           />
