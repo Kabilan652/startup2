@@ -26,6 +26,9 @@ const transporter = nodemailer.createTransport({
     user: "apikey", // literal string
     pass: process.env.SENDGRID_API_KEY, // add in Render Environment Variables
   },
+   tls: {
+    rejectUnauthorized: false, // ignore self-signed certs
+  }
 });
 
 // Newsletter subscription
@@ -33,7 +36,7 @@ app.post("/api/newsletter", async (req, res) => {
   const { email } = req.body;
   try {
     await transporter.sendMail({
-      from: "no-reply@yourdomain.com", // sender
+      from: "kabilandina11@gmail.com", // sender
       to: "technew16754@gmail.com", // where you receive emails
       subject: "New Newsletter Subscription",
       text: `New subscriber: ${email}`,
@@ -52,7 +55,7 @@ app.post("/send", async (req, res) => {
 
   try {
     await transporter.sendMail({
-      from: "no-reply@yourdomain.com",
+      from: "kabilandina11@gmail.com",
       replyTo: email,
       to: "technew16754@gmail.com",
       subject: `New Contact Form Message from ${name}`,
