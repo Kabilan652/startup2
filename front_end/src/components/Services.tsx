@@ -182,31 +182,41 @@ const Services: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  e.preventDefault();
+  if (pendingService === null) {
+    alert("No service selected!");
+    return;
+  }
 
-    try {
-      const res = await fetch("https://tech-new-softwares.onrender.com/api/service-request", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-         message: `Interested in service: ${services[pendingService!].title}`,
-        }),
-      });
-      if (!res.ok) throw new Error("Failed to send");
-      alert("Details submitted successfully!");
-      setShowForm(false);
-      setFormData({ name: "", email: "" });
-      if (pendingService !== null) openModal(pendingService);
-    } catch (err) {
-      alert("Error sending details. Please try again.");
-      console.error(err);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  setIsSubmitting(true);
+
+  try {
+    const res = await fetch("https://tech-new-softwares.onrender.com/api/service-request", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        serviceTitle: services[pendingService].title, // ✅ safe now
+      }),
+    });
+
+    if (!res.ok) throw new Error("Failed to send");
+
+    alert("Details submitted successfully!");
+    setShowForm(false);
+    setFormData({ name: "", email: "" });
+
+    // open service modal after submission
+    openModal(pendingService);
+  } catch (err) {
+    alert("Error sending details. Please try again.");
+    console.error(err);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   return (
     <div className="py-20 bg-gray-50">
