@@ -71,7 +71,7 @@ app.post("/api/service-request", async (req, res) => {
   try {
     // Owner notification
     await sgMail.send({
-      to: "technew16754@gmail.com",
+      to: "kabilanrube11@gmail.com",
       from: { email: "kabilandina11@gmail.com", name: "TechNew Website" }, // verified domain
       replyTo: email,
       subject: `New Service Request from ${name}`,
