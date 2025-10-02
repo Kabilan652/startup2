@@ -53,8 +53,7 @@ const VisionMission: React.FC = () => {
               <h3 className="text-2xl font-bold text-gray-900">Our Vision</h3>
             </div>
             <p className="text-gray-600 leading-relaxed">
-              To be a global leader in technology innovation, transforming businesses and lives through cutting-edge software solutions that drive digital transformation and create lasting value for our clients, partners, and communities worldwide.
-            </p>
+                Our vision is to be a trusted global catalyst for digital transformation, empowering businesses with intelligent data insights, secure infrastructure, and innovative digital solutions. We aim to create a future where organizations thrive with confidence, driven by security, growth, and sustainable technological excellence.            </p>
           </div>
 
           {/* Mission */}
@@ -69,8 +68,7 @@ const VisionMission: React.FC = () => {
               <h3 className="text-2xl font-bold text-gray-900">Our Mission</h3>
             </div>
             <p className="text-gray-600 leading-relaxed">
-              To empower businesses with innovative IT services and solutions that drive growth, efficiency, and digital excellence. We are committed to delivering exceptional quality, fostering long-term partnerships, and creating technology that makes a meaningful impact on the world.
-            </p>
+                Our mission is to deliver comprehensive and integrated technology services—spanning Data Analytics, Web & App Development, and Cybersecurity—that drive measurable growth and ensure digital security. We are committed to helping businesses unlock their full potential by providing innovative tools, strategic insights, and future-ready solutions that strengthen trust and market relevance.            </p>
           </div>
         </div>
 
