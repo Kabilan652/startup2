@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+simport React, { useState } from 'react';
 import { Code, Brain, Cloud, Users, X, Share2 } from 'lucide-react';
 
 const Services: React.FC = () => {
@@ -171,6 +171,55 @@ const Services: React.FC = () => {
         timeline: 'Ongoing support with monthly or quarterly assessments',
       },
     },
+    {
+  icon: Users,
+  title: 'Webinars',
+  description: 'Professional webinars on trending technology and business topics',
+  color: 'from-red-500 to-red-600',
+  details: {
+    overview:
+      'Our webinars are designed to provide deep insights into modern technologies, digital transformation, and industry best practices. Each session is interactive and led by experienced experts from the field.',
+    features: [
+      'Live Q&A and discussions',
+      'Polls and interactive sessions',
+      'Recorded access for registered participants',
+      'Certificates of participation for attendees',
+    ],
+    technologies: [
+      'Software Development Practices & Frameworks',
+      'Artificial Intelligence & Data Analytics',
+      'Cloud Computing & DevOps',
+      'Cybersecurity & IT Infrastructure',
+      'Business Growth & Digital Marketing Strategies',
+      'Startup & Entrepreneurship Guidance',
+    ],
+    timeline: 'Regular monthly webinars on different topics (1–2 hours per session)',
+  },
+},
+{
+  icon: Users,
+  title: 'Internship Programs',
+  description: 'Structured internship opportunities for students and graduates',
+  color: 'from-indigo-500 to-indigo-600',
+  details: {
+    overview:
+      'Our internships are carefully designed to bridge the gap between academics and industry expectations. Interns work on live projects, learn from experienced mentors, and build a portfolio to strengthen their careers.',
+    features: [
+      'Hands-on learning with real projects',
+      'Mentorship from industry professionals',
+      'Collaboration using modern tools (GitHub, Jira, Slack, etc.)',
+      'Certification provided upon successful completion',
+      'Recommendation letters for top performers',
+    ],
+    technologies: [
+      'Technical Internships – Full-stack development, AI/ML, data analytics, cloud solutions',
+      'Business Internships – Marketing, business strategy, consulting, social media management',
+      'Creative Internships – UI/UX design, content creation, branding',
+    ],
+    timeline: '1–6 months depending on program type',
+  },
+},
+
   ];
 
   const openModal = (index: number) => setSelectedService(index);
