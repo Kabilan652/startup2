@@ -1,4 +1,4 @@
-simport React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Code, Brain, Cloud, Users, X, Share2 } from 'lucide-react';
 
 const Services: React.FC = () => {
