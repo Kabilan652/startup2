@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { Mail, Linkedin, Instagram, ArrowRight } from 'lucide-react';
+import { Mail, Linkedin, Instagram, ArrowRight, Loader2 } from 'lucide-react'; // Added Loader2 icon
 
 const Footer = () => {
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false); // NEW: loading state
 
   const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
     try {
-      const response = await fetch('https://startup2-server.onrender.com/api/newsletter', {
+      const response = await fetch('http://localhost:5000/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -22,6 +24,8 @@ const Footer = () => {
     } catch (err) {
       console.error(err);
       alert('Failed to send subscription. Check your server.');
+    } finally {
+      setLoading(false); // Stop loading after response
     }
   };
 
@@ -46,9 +50,16 @@ const Footer = () => {
             />
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-r-md flex items-center space-x-1 transition-colors duration-200"
+              disabled={loading} // disable while loading
+              className={`px-4 py-2 rounded-r-md flex items-center justify-center space-x-1 transition-colors duration-200 ${
+                loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+              }`}
             >
-              <ArrowRight className="w-4 h-4" />
+              {loading ? (
+                <Loader2 className="w-4 h-4 animate-spin" /> // Spinner animation
+              ) : (
+                <ArrowRight className="w-4 h-4" />
+              )}
             </button>
           </form>
         </div>
