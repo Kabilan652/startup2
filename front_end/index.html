@@ -2,124 +2,83 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/images/newlogo.jpg" />
+    <link rel="icon" type="image/svg+xml" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tech New Softwares</title>
-
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Tech New Softwares - Empowering businesses with innovative technology solutions including software development, AI analytics, cloud services, and IT consulting.">
-    <meta name="keywords" content="software development, AI analytics, cloud solutions, IT consulting, digital transformation, tech company">
-    <meta name="author" content="Tech New Softwares">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Tech New Softwares - Your Success, Our Commitment">
-    <meta property="og:description" content="Empowering businesses with innovative technology solutions including software development, AI analytics, cloud services, and IT consulting.">
-    <meta property="og:image" content="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1200">
-    <meta property="og:url" content="https://technewsoftwares.com">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="Tech New Softwares - Your Success, Our Commitment">
-    <meta property="twitter:description" content="Empowering businesses with innovative technology solutions including software development, AI analytics, cloud services, and IT consulting.">
-    <meta property="twitter:image" content="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1200">
-
-    <!-- Preload fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
+    
     <style>
-  /* 🌀 Preloader styles */
-  #preloader {
-    position: fixed;
-    inset: 0;
-    background-color: #0f172a;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 0.5s ease;
-  }
+      /* 🌀 Centered Spinner with Logo and Rotating Border */
+      #spinner {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #0f172a;
+        z-index: 9999;
+        opacity: 1;
+      }
 
-  /* Spinner container */
-  .spinner {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+      .spinner-wrapper {
+        position: relative;
+        width: 80px;
+        height: 80px;
+      }
 
-  /* Spinning ring */
-  .spinner::before {
-    content: '';
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    border: 6px solid rgba(255, 255, 255, 0.2);
-    border-top-color: #3b82f6;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
+      /* Rotating border (spinner) */
+      .spinner-border {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 6px solid rgba(255, 255, 255, 0.2);
+        border-top-color: #3b82f6;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
 
-  /* Center logo */
-  .spinner img {
-    width: 70px;
-    height: 70px;
-    border-radius: 10px;
-    object-fit: cover;
-  }
+      /* Logo in center with small gap */
+      .spinner-logo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 64px; /* fixed size slightly smaller than wrapper */
+        height: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
 
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  /* 📱 Responsive for mobile */
-  @media (max-width: 600px) {
-    .spinner {
-      width: 80px;
-      height: 80px;
-    }
-
-    .spinner::before {
-      width: 80px;
-      height: 80px;
-      border-width: 4px;
-    }
-
-    .spinner img {
-      width: 45px;
-      height: 45px;
-    }
-  }
-</style>
-
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
   </head>
-
   <body>
-    <div id="preloader">
-      <div class="spinner">
-        <img src="/images/onlylogo.jpg" alt="Tech New Softwares Logo" />
+    <!-- Spinner with Logo -->
+    <div id="spinner">
+      <div class="spinner-wrapper">
+        <div class="spinner-border"></div>
+        <img class="spinner-logo" src="/images/onlylogo.jpg" alt="Logo">
       </div>
     </div>
 
-    <!-- React Root -->
     <div id="root"></div>
-
     <script type="module" src="/src/main.jsx"></script>
 
-    <!-- Remove preloader after React loads -->
     <script>
-      window.addEventListener('load', () => {
-        const preloader = document.getElementById('preloader');
-        if (preloader) {
-          preloader.style.opacity = '0';
-          setTimeout(() => preloader.remove(), 2000);
-        }
+      // Remove spinner after page load
+      window.addEventListener("load", () => {
+        const spinner = document.getElementById("spinner");
+
+        // Wait 2 seconds before fading out
+        setTimeout(() => {
+          spinner.style.transition = "opacity 0.5s"; // smooth fade
+          spinner.style.opacity = "0";
+          setTimeout(() => spinner.remove(), 500);
+        }, 2000);
       });
     </script>
   </body>
