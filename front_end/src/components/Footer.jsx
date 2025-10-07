@@ -9,7 +9,7 @@ const Footer = () => {
     e.preventDefault();
     setLoading(true); // Start loading
     try {
-      const response = await fetch('http://localhost:5000/api/newsletter', {
+      const response = await fetch('https://startup2-server.onrender.com/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
