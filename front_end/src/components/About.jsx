@@ -1,6 +1,5 @@
 import React from 'react';
-import { Lightbulb, Users, Shield, Award } from 'lucide-react';
-
+import { Lightbulb, Users, Shield, Award, Video, User } from 'lucide-react';
 
 // Feature Card Component
 const FeatureCard = ({ icon: Icon, title, description, color }) => (
@@ -29,6 +28,29 @@ const GalleryItem = ({ src, alt }) => (
   </div>
 );
 
+//  Updated Webinar Card Component
+const WebinarCard = ({ image, title, topic, guest, participants, date, description, link }) => (
+  <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-transform duration-300 hover:-translate-y-2 overflow-hidden">
+    <img
+      src={image}
+      alt={title}
+      className="w-full h-48 object-cover"
+      loading="lazy"
+    />
+    <div className="p-6">
+      <div className="flex items-center space-x-3 mb-3">
+        <Video className="w-6 h-6 text-blue-600" />
+        <h4 className="text-xl font-semibold text-gray-900">{title}</h4>
+      </div>
+      <p className="text-sm text-gray-500 mb-1">📅 {date}</p>
+      <p className="text-gray-700 font-medium mb-1">🎯 Topic: <span className="font-normal">{topic}</span></p>
+      <p className="text-gray-700 font-medium mb-1">👤 Guest: <span className="font-normal">{guest}</span></p>
+      <p className="text-gray-700 font-medium mb-4">👥 Participants: <span className="font-normal">{participants}</span></p>
+      <p className="text-gray-600 leading-relaxed mb-4">{description}</p>
+    </div>
+  </div>
+);
+
 const About = () => {
   const features = [
     {
@@ -51,6 +73,21 @@ const About = () => {
     }
   ];
 
+  //  Updated Webinars Data
+  const webinars = [
+    {
+      image: '/images/networking_web.jpg',
+      title: 'Networking',
+      topic: 'Learn How to Build Your Network',
+      guest: 'Mr. Senthil Kumar P B (Senior Software Engineer, Cisco, Bangalore)',
+      participants: '200+',
+      date: 'October 12, 2025',
+      description:
+        'An online session on how to build and strengthen your professional network effectively, with certification included.',
+      link: 'https://example.com/webinar-network'
+    }
+  ];
+
   const galleryImages = [
     '/images/Ws1.jpg',
     '/images/Ws2.jpg',
@@ -63,6 +100,7 @@ const About = () => {
   return (
     <div className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         {/* Company Intro */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
           <div className="space-y-6">
@@ -119,6 +157,29 @@ const About = () => {
             ))}
           </div>
         </section>
+
+        {/*  Updated Past Webinars Section */}
+      <section className="mb-20" aria-labelledby="webinars-heading">
+          <div className="text-center mb-12">
+            <h3 id="webinars-heading" className="text-3xl font-bold text-gray-900 mb-4">
+              Past Webinars
+            </h3>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              A look back at our inspiring sessions where experts and innovators came together to share knowledge.
+            </p>
+          </div>
+
+          {/*  Center webinar card properly */}
+          <div className="flex justify-center">
+            {webinars.map((webinar, index) => (
+              <div key={index} className="max-w-md w-full">
+                <WebinarCard {...webinar} />
+              </div>
+            ))}
+          </div>
+        </section>
+
+
 
         {/* Gallery Section */}
         <section aria-labelledby="gallery-heading">
