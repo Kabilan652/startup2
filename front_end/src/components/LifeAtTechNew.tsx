@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {  Heart, Users, Trophy, Gamepad2, Globe, UserCheck, Inspect as Respect, BookOpen, Zap, TrendingUp } from 'lucide-react';
 
-import sathishImg from "/images/sathish.png"
+import sathishImg from "/images/sathish.jpg"
 
 const LifeAtTechNew: React.FC = () => {
   const [ setCurrentFounder] = useState(0);
