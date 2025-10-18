@@ -35,9 +35,8 @@ const Hero: React.FC<HeroProps> = ({ subscriberCount }) => {
       <img
         src={teamImg}
         alt="Team"
-        className="absolute inset-0 w-full h-full object-cover object-top sm:object-center md:object-[center_20%] lg:object-center"
+        className="absolute inset-0 w-full h-full object-contain sm:object-cover object-center"
       />
-
 
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 opacity-60 sm:opacity-50"></div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
