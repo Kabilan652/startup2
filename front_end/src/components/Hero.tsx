@@ -10,7 +10,7 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({ subscriberCount }) => {
   const [displayedText, setDisplayedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-  const fullText = "We Don’t Follow Trends — We Create Them.";
+  const fullText = "We Don’t Follow Trends - We Create Them.";
 
   useEffect(() => {
     if (currentIndex < fullText.length) {
@@ -35,7 +35,7 @@ const Hero: React.FC<HeroProps> = ({ subscriberCount }) => {
       <img
         src={teamImg}
         alt="Team"
-        className="absolute inset-0 w-full h-full object-contain sm:object-cover object-center"
+        className="absolute inset-0 w-full h-full object-contain md:object-cover object-center"
       />
 
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 opacity-60 sm:opacity-50"></div>
